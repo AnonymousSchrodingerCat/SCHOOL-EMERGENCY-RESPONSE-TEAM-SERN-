@@ -1,0 +1,2 @@
+# SCHOOL-EMERGENCY-RESPONSE-TEAM-SERN-
+"The Faster, The Better"
