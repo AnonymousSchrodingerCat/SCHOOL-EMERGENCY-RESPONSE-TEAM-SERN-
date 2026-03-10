@@ -33,37 +33,39 @@ focalPoints.forEach(person => {
 });
 
 
-// --- 2. NEON DB CONNECTION ---
-import { NeonHttpNetworkClient } from 'https://cdn.jsdelivr.net/npm/@neondatabase/serverless@0.9.0/dist/index.js';
-
-const connectionString = "postgresql://neondb_owner:npg_HI4hYKsp8rWS@ep-silent-dawn-a1yauosz-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
-
-const sql = NeonHttpNetworkClient(connectionString);
-
+// --- 2. NEON DB CONNECTION (Via API) ---
 async function fetchDatabaseStats() {
     const logConsole = document.getElementById('console-log');
     
     try {
-        const result = await sql`SELECT * FROM emergency_stats LIMIT 1`;
+        addLog("Connecting to database via API...");
+        
+        const response = await fetch('/api/stats');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
         
         if (result.length > 0) {
             document.getElementById('stat-incidents').innerText = result[0]?.incidents || "0";
             document.getElementById('stat-time').innerText = result[0]?.avg_time || "N/A";
             document.getElementById('stat-resources').innerText = result[0]?.resources || "0";
+            addLog(`Database connected successfully. Fetched ${result.length} rows.`);
         } else {
             document.getElementById('stat-incidents').innerText = "0";
             document.getElementById('stat-time').innerText = "0m 0s";
             document.getElementById('stat-resources').innerText = "0";
+            addLog("Warning: Table exists but no data found.");
         }
-        
-        addLog(`Database connected successfully. Fetched ${result.length} rows.`);
 
     } catch (error) {
         console.error("Database Error:", error);
+        addLog(`ERROR: ${error.message}`);
         document.getElementById('stat-incidents').innerText = "0";
         document.getElementById('stat-time').innerText = "0m 0s";
         document.getElementById('stat-resources').innerText = "0";
-        addLog("Warning: Database connection string not set or table missing.");
     }
 }
 
