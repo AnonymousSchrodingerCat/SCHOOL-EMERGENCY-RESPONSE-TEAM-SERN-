@@ -48,24 +48,47 @@ async function fetchDatabaseStats() {
         
         const result = await response.json();
         
-        if (result.length > 0) {
-            document.getElementById('stat-incidents').innerText = result[0]?.incidents || "0";
-            document.getElementById('stat-time').innerText = result[0]?.avg_time || "N/A";
-            document.getElementById('stat-resources').innerText = result[0]?.resources || "0";
-            addLog(`Database connected successfully. Fetched ${result.length} rows.`);
-        } else {
-            document.getElementById('stat-incidents').innerText = "0";
-            document.getElementById('stat-time').innerText = "0m 0s";
-            document.getElementById('stat-resources').innerText = "0";
-            addLog("Warning: Table exists but no data found.");
-        }
+        // Count severity codes
+        let redCount = 0;
+        let orangeCount = 0;
+        let yellowCount = 0;
+        
+        // Clear existing rows
+        document.getElementById('incident-rows').innerHTML = '';
+        
+        // Process each incident
+        result.forEach(incident => {
+            // Count by severity
+            if (incident.severity_code === 'Red') redCount++;
+            else if (incident.severity_code === 'Orange') orangeCount++;
+            else if (incident.severity_code === 'Yellow') yellowCount++;
+            
+            // Add row to table
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${incident.incident_date || 'N/A'}</td>
+                <td>${incident.incident_time || 'N/A'}</td>
+                <td><span class="severity-${incident.severity_code?.toLowerCase()}">${incident.severity_code || 'N/A'}</span></td>
+                <td>${incident.section || 'N/A'}</td>
+                <td>${incident.building || 'N/A'}</td>
+                <td>${incident.floor || 'N/A'}</td>
+            `;
+            document.getElementById('incident-rows').appendChild(row);
+        });
+        
+        // Update stats
+        document.getElementById('stat-red').innerText = redCount;
+        document.getElementById('stat-orange').innerText = orangeCount;
+        document.getElementById('stat-yellow').innerText = yellowCount;
+        
+        addLog(`Database connected successfully. Fetched ${result.length} rows.`);
 
     } catch (error) {
         console.error("Database Error:", error);
         addLog(`ERROR: ${error.message}`);
-        document.getElementById('stat-incidents').innerText = "0";
-        document.getElementById('stat-time').innerText = "0m 0s";
-        document.getElementById('stat-resources').innerText = "0";
+        document.getElementById('stat-red').innerText = "0";
+        document.getElementById('stat-orange').innerText = "0";
+        document.getElementById('stat-yellow').innerText = "0";
     }
 }
 
