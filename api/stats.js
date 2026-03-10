@@ -1,7 +1,6 @@
 import { NeonHttpNetworkClient } from "@neondatabase/serverless";
 
 export default async function handler(req, res) {
-    // Get connection string from environment variable
     const connectionString = process.env.NEON_CONNECTION_STRING;
     
     if (!connectionString) {
