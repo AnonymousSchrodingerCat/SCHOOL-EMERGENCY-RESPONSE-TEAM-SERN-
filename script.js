@@ -36,9 +36,15 @@ focalPoints.forEach(person => {
 // --- 2. NEON DB CONNECTION (Via API) ---
 async function fetchDatabaseStats() {
     const logConsole = document.getElementById('console-log');
+    const incidentRows = document.getElementById('incident-rows');
     
     try {
         addLog("Connecting to database via API...");
+        
+        // Show loading indicator
+        if (incidentRows) {
+            incidentRows.innerHTML = '<tr><td colspan="6" style="text-align:center;">Loading data...</td></tr>';
+        }
         
         const response = await fetch('/api/stats');
         
@@ -54,7 +60,9 @@ async function fetchDatabaseStats() {
         let yellowCount = 0;
         
         // Clear existing rows
-        document.getElementById('incident-rows').innerHTML = '';
+        if (incidentRows) {
+            incidentRows.innerHTML = '';
+        }
         
         // Process each incident
         result.forEach(incident => {
@@ -73,22 +81,38 @@ async function fetchDatabaseStats() {
                 <td>${incident.building || 'N/A'}</td>
                 <td>${incident.floor || 'N/A'}</td>
             `;
-            document.getElementById('incident-rows').appendChild(row);
+            if (incidentRows) {
+                incidentRows.appendChild(row);
+            }
         });
         
-        // Update stats
-        document.getElementById('stat-red').innerText = redCount;
-        document.getElementById('stat-orange').innerText = orangeCount;
-        document.getElementById('stat-yellow').innerText = yellowCount;
+        // Update stats with null checks
+        const statRed = document.getElementById('stat-red');
+        const statOrange = document.getElementById('stat-orange');
+        const statYellow = document.getElementById('stat-yellow');
+        
+        if (statRed) statRed.innerText = redCount;
+        if (statOrange) statOrange.innerText = orangeCount;
+        if (statYellow) statYellow.innerText = yellowCount;
         
         addLog(`Database connected successfully. Fetched ${result.length} rows.`);
 
     } catch (error) {
         console.error("Database Error:", error);
         addLog(`ERROR: ${error.message}`);
-        document.getElementById('stat-red').innerText = "0";
-        document.getElementById('stat-orange').innerText = "0";
-        document.getElementById('stat-yellow').innerText = "0";
+        
+        // Reset stats on error
+        const statRed = document.getElementById('stat-red');
+        const statOrange = document.getElementById('stat-orange');
+        const statYellow = document.getElementById('stat-yellow');
+        const incidentRows = document.getElementById('incident-rows');
+        
+        if (statRed) statRed.innerText = "0";
+        if (statOrange) statOrange.innerText = "0";
+        if (statYellow) statYellow.innerText = "0";
+        if (incidentRows) {
+            incidentRows.innerHTML = '<tr><td colspan="6" style="text-align:center;">Error loading data</td></tr>';
+        }
     }
 }
 
@@ -101,4 +125,14 @@ function addLog(message) {
     consoleDiv.scrollTop = consoleDiv.scrollHeight;
 }
 
-window.addEventListener('load', fetchDatabaseStats);
+// --- 3. INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Update footer year dynamically
+    const footer = document.querySelector('footer p');
+    if (footer) {
+        footer.innerHTML = `&copy; ${new Date().getFullYear()} Emergency Response System. Secure Connection.`;
+    }
+    
+    // Fetch database stats on page load
+    fetchDatabaseStats();
+});
