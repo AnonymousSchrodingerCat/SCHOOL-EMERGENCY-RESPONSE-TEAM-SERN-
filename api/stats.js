@@ -10,7 +10,12 @@ export default async function handler(req, res) {
     const sql = neon(connectionString);
     
     try {
-        const result = await sql`SELECT * FROM emergency_stats LIMIT 1`;
+        // Get latest 5 incidents
+        const result = await sql`
+            SELECT * FROM emergency_incidents 
+            ORDER BY created_at DESC 
+            LIMIT 5
+        `;
         res.status(200).json(result);
     } catch (error) {
         console.error("Database Error:", error);
