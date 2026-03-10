@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Response Command Center</title>
+    <!-- Leaflet CSS for the Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Google Fonts for a tactical look -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navigation / Header -->
+    <nav class="navbar">
+        <div class="logo">EMERGENCY<span class="highlight">RESPONSE</span></div>
+        <div class="status">
+            <span class="status-dot"></span> SYSTEM ONLINE
+        </div>
+    </nav>
+
+    <!-- 1. Opening / Introduction Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>COORDINATION HUB</h1>
+            <p>Real-time monitoring and resource allocation for Luzon, Visayas, and Mindanao.</p>
+            <button class="cta-btn">INITIATE PROTOCOL</button>
+        </div>
+    </header>
+
+    <!-- 2. Map Section -->
+    <section class="map-section">
+        <div class="section-header">
+            <h2>Live Operations Map</h2>
+            <p>Current Focal Person Locations</p>
+        </div>
+        <div id="map"></div>
+    </section>
+
+    <!-- 3. Demographic / Team Section -->
+    <section class="team-section">
+        <div class="section-header">
+            <h2>Command Personnel</h2>
+        </div>
+        <div class="team-grid">
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-icon">📍</div>
+                <h3>Joseph Lapinid</h3>
+                <p class="role">Focal Person: Mindanao</p>
+                <p class="contact">09307661916</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="card">
+                <div class="card-icon">📍</div>
+                <h3>Raph Japuz Focal</h3>
+                <p class="role">Focal Person: Visayas</p>
+                <p class="contact">09649799427</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-icon">📍</div>
+                <h3>James Toregossa</h3>
+                <p class="role">Focal Person: Luzon</p>
+                <p class="contact">09231041877</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Database / Stats Section -->
+    <section class="database-section">
+        <div class="section-header">
+            <h2>Live Data Logs</h2>
+            <p>Connected to NeonDB</p>
+        </div>
+        <div class="stats-container">
+            <div class="stat-box">
+                <h3>Active Incidents</h3>
+                <p id="stat-incidents">Loading...</p>
+            </div>
+            <div class="stat-box">
+                <h3>Response Time</h3>
+                <p id="stat-time">Loading...</p>
+            </div>
+            <div class="stat-box">
+                <h3>Resources</h3>
+                <p id="stat-resources">Loading...</p>
+            </div>
+        </div>
+        <div class="log-console" id="console-log">
+            <!-- Logs will appear here -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Emergency Response System. Secure Connection.</p>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Neon Client (For Database) -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>
