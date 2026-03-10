@@ -36,7 +36,6 @@ focalPoints.forEach(person => {
 // --- 2. NEON DB CONNECTION ---
 import { NeonHttpNetworkClient } from 'https://cdn.jsdelivr.net/npm/@neondatabase/serverless@0.9.0/dist/index.js';
 
-// YOUR CONNECTION STRING
 const connectionString = "postgresql://neondb_owner:npg_HI4hYKsp8rWS@ep-silent-dawn-a1yauosz-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
 
 const sql = NeonHttpNetworkClient(connectionString);
@@ -45,7 +44,6 @@ async function fetchDatabaseStats() {
     const logConsole = document.getElementById('console-log');
     
     try {
-        // Query the emergency_stats table
         const result = await sql`SELECT * FROM emergency_stats LIMIT 1`;
         
         if (result.length > 0) {
