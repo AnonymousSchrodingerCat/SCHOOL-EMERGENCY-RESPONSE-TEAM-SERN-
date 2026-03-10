@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emergency Response Command Center</title>
+    <meta name="description" content="Emergency Response Command Center – real-time monitoring and resource allocation for the Philippines.">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -12,7 +13,7 @@
     <nav class="navbar">
         <div class="logo">EMERGENCY<span class="highlight">RESPONSE</span></div>
         <div class="status">
-            <span class="status-dot"></span> SYSTEM ONLINE
+            <span class="status-dot" aria-hidden="true"></span> SYSTEM ONLINE
         </div>
     </nav>
 
@@ -41,19 +42,19 @@
                 <div class="card-icon">📍</div>
                 <h3>Joseph Lapinid</h3>
                 <p class="role">Focal Person: Mindanao</p>
-                <p class="contact">09307661916</p>
+                <p class="contact"><a href="tel:+639307661916">09307661916</a></p>
             </div>
             <div class="card">
                 <div class="card-icon">📍</div>
                 <h3>Raph Japuz Focal</h3>
                 <p class="role">Focal Person: Visayas</p>
-                <p class="contact">09649799427</p>
+                <p class="contact"><a href="tel:+639649799427">09649799427</a></p>
             </div>
             <div class="card">
                 <div class="card-icon">📍</div>
                 <h3>James Toregossa</h3>
                 <p class="role">Focal Person: Luzon</p>
-                <p class="contact">09231041877</p>
+                <p class="contact"><a href="tel:+639231041877">09231041877</a></p>
             </div>
         </div>
     </section>
@@ -83,12 +84,12 @@
             <table class="incident-table">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Code</th>
-                        <th>Section</th>
-                        <th>Building</th>
-                        <th>Floor</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Section</th>
+                        <th scope="col">Building</th>
+                        <th scope="col">Floor</th>
                     </tr>
                 </thead>
                 <tbody id="incident-rows">
