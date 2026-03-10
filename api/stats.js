@@ -1,4 +1,4 @@
-import { NeonHttpNetworkClient } from "@neondatabase/serverless";
+import { neon } from "@neondatabase/serverless";
 
 export default async function handler(req, res) {
     const connectionString = process.env.NEON_CONNECTION_STRING;
@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: "Database connection string not configured" });
     }
     
-    const sql = NeonHttpNetworkClient(connectionString);
+    const sql = neon(connectionString);
     
     try {
         const result = await sql`SELECT * FROM emergency_stats LIMIT 1`;
